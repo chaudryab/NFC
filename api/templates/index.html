@@ -1,0 +1,154 @@
+{% extends 'includes/master.html' %}
+{% block body %}
+{% load static %}
+
+
+                            <ul class="list-inline menu-left mb-0">
+                                <li class="list-inline-item">
+                                    <button type="button" class="button-menu-mobile open-left waves-effect">
+                                        <i class="ion-navicon"></i>
+                                    </button>
+                                </li>
+                                <li class="hide-phone list-inline-item app-search">
+                                    <h3 class="page-title">Dashboard</h3>
+                                </li>
+                            </ul>
+
+                            <div class="clearfix"></div>
+                        </nav>
+
+                    </div>
+                   
+
+                    <div class="page-content-wrapper">
+
+                        <div class="container-fluid">
+                            <div class="col-12">
+                                <div class="card m-b-30">
+                                    <div class="card-body">
+                                        <h4 class="mt-0 header-title">Registered Users Per Month</h4>
+        
+
+                                        <div class="row">
+        
+                                            <div class="col-xl-12">
+                                                <div class="card m-b-30">
+                                                    <div class="card-body">
+                                                        <!-- <h4 class="mt-0 header-title">Registered Users per month</h4> -->
+                                    
+                                                        
+                                                        <canvas id="myChart" width="400" height="200"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+            
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
+                                            <h4 class="mt-0 m-b-30 header-title">Latest Users</h4>
+            
+                                            <div class="table-responsive">
+                                                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>E-mail</th>
+                                                        <th>Phone No</th>
+                                                        <th>Profession</th>
+                                                    </tr>
+                                                    </thead>
+                
+                
+                                                    <tbody>
+                                                        {% for user in username reversed %}
+                                                        <tr>
+                                                            <td>{{ user.name}}</td>
+                                                            <td>{{ user.email}}</td>
+                                                            <td>{{ user.phone_no}}</td>
+                                                            <td>{{ user.profession }}</td>
+                                                          
+    
+                                                        </tr>
+                                                        {% endfor %}
+                                                </table>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                       
+            
+            
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+
+                {% endblock %}
+                {% block js %}
+
+                <!--Morris Chart-->
+        <script src="{% static '/plugins/morris/morris.min.js' &}"></script>
+        <script src="{% static '/plugins/raphael/raphael-min.js' &}"></script>
+        <script src="{% static '/pages/dashboard.js' %}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+var url = "{% url 'monthly_registration_chart' %}";
+$.get(url).then(function(result){
+    var months = result.months.reverse()
+    var users = result.users_count.reverse()
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label:  'Registered Users',
+                data: users,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });  
+})
+
+    
+</script>
+
+    {% endblock %}

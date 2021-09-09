@@ -1,0 +1,122 @@
+{% extends 'includes/master.html' %}
+{% load static %}
+
+<link href="{% static '/plugins/nestable/jquery.nestable.css' %}" rel="stylesheet" />
+{% block body %}
+
+
+
+<ul class="list-inline menu-left mb-0">
+    <li class="list-inline-item">
+        <button type="button" class="button-menu-mobile open-left waves-effect">
+            <i class="ion-navicon"></i>
+        </button>
+    </li>
+    <li class="hide-phone list-inline-item app-search">
+        <h3 class="page-title">User Detail</h3>
+    </li>
+</ul>
+
+<div class="clearfix"></div>
+</nav>
+
+</div>
+<!-- Top Bar End -->
+
+<!-- ==================
+PAGE CONTENT START
+================== -->
+
+<div class="page-content-wrapper">
+
+<div class="container-fluid">
+
+<div class="row">
+    <div class="col-lg">
+        <div class="card m-b-20">
+            <div class="card-body">
+                {% for user in user_detail %}
+                <div class="media">
+                    <img class="d-flex mr-3 rounded-circle thumb-lg" src="{{ user.image.url }} " alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h5 class="m-t-10 font-18 mb-1">{{ user.name }}</h5>
+                        <p class="text-muted m-b-5">{{ user.email }}</p>
+                        <p class="text-muted font-14 font-500 font-secondary">{{ user.profession}}</p>
+                    </div>
+                </div>
+
+                <div class="row text-center m-t-20">
+                    <div class="col-6">
+                        <h6 class="mb-0">{{ user.phone_no }}</h6>
+                        <p class="text-muted font-14">Phone Number</p>
+                    </div>
+                    <div class="col-6">
+                        <h6 class="mb-0">{{ user.address }}</h6>
+                        <p class="text-muted font-14">Address</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% for user in user_socialLinks %}
+                <ul class="social-links text-center list-inline mb-0 mt-3">
+                    {% if user.fb != '' %}
+                    <li class="list-inline-item">
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href=" {{ user.fb }} " data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    {% endif %}
+                    {% if user.insta != '' %}
+                    <li class="list-inline-item">
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href=" {{ user.insta }}" data-original-title="Instagram"><i class="fa fa-instagram"></i></a>
+                    </li>
+                    {% endif %}
+                    {% if user.linkedin != '' %}
+                    <li class="list-inline-item">
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href=" {{ user.linkedin }} " data-original-title="LinkedIn"><i class="fa fa-linkedin"></i></a>
+                    </li>
+                    {% endif %}
+                    {% if user.youtube != '' %}
+                    <li class="list-inline-item">
+                        <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href=" {{ user.youtube }} " data-original-title="Youtube"><i class="fa fa-youtube"></i></a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+    </div> <!-- end col -->
+
+</div> <!-- end row -->
+<div class="row">
+    <div class="col-lg">
+        <div class="card m-b-20">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title">Meetings</h4>
+
+                <div class="custom-dd dd" id="nestable_list_1">
+                    {% for user in user_meetings %}
+                    <ol class="dd-list">
+                        <li class="dd-item" data-id="1">
+                            <div class="dd-handle">
+                                {{ user.link }}
+                            </div>
+                        </li>  
+
+                    </ol>
+                    {% endfor %} 
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>
+</div><!-- container -->
+</div> <!-- Page content Wrapper -->
+
+</div> <!-- content -->
+
+{% endblock %}
+{% block js %}
+<script src="{% static '/plugins/nestable/jquery.nestable.js' %}"></script>
+<script src="{% static '/pages/nestable-init.js' %}"></script>
+{% endblock %}
